@@ -1,11 +1,3 @@
-<%= for event <- @events do
-    case event do
-        %MIDIPlayer.Event.Note{channel: channel} -> channel
-        %MIDIPlayer.Event.ChangeProgram{channel: channel} -> channel
-        _ -> "Not recognised"
-    end
-end %>
-
 <%= for event <- @events do %>
 <p>
     <%= case event do
@@ -18,4 +10,55 @@ end %>
     </p>
 <% end %>
 
-<button phx-click="start">Start</button>
+<p>
+    <button phx-click="start">Start</button>
+</p>
+<p>
+<button phx-click="toggle-note-form">Add note</button>
+</p>
+<p>
+<button phx-click="toggle-change-program-form">Add change program</button>
+</p>
+
+<%= if @adding == :note do %>
+    <%= f = form_for :note, "#", [phx_submit: :save_note] %>
+        <%= label f, :channel %>
+        <%= number_input f, :channel %>
+        <%= error_tag f, :channel %>
+
+        <%= label f, :tone %>
+        <%= number_input f, :tone %>
+        <%= error_tag f, :tone %>
+
+        <%= label f, :velocity %>
+        <%= number_input f, :velocity %>
+        <%= error_tag f, :velocity %>
+
+        <%= label f, :start_time %>
+        <%= number_input f, :start_time %>
+        <%= error_tag f, :start_time %>
+
+        <%= label f, :end_time %>
+        <%= number_input f, :end_time %>
+        <%= error_tag f, :end_time %>
+
+        <%= submit "Save" %>
+    </form>
+<% end %>
+<%= if @adding == :change_program do %>
+    <%= f = form_for :change_program, "#", [phx_submit: :save_change_program] %>
+        <%= label f, :channel %>
+        <%= number_input f, :channel %>
+        <%= error_tag f, :channel %>
+
+        <%= label f, :time %>
+        <%= number_input f, :time %>
+        <%= error_tag f, :time %>
+
+        <%= label f, :program %>
+        <%= number_input f, :program %>
+        <%= error_tag f, :program %>
+
+        <%= submit "Save" %>
+    </form>
+<% end %>
