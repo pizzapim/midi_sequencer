@@ -3,37 +3,24 @@ defmodule MIDISeqWeb.PageLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, query: "", results: %{})}
+    events = test_events()
+    MIDIPlayer.generate_schedule(MIDISeq.Player, events, 3000)
+    {:ok, assign(socket, events: test_events())}
   end
 
   @impl true
-  def handle_event("suggest", %{"q" => query}, socket) do
-    {:noreply, assign(socket, results: search(query), query: query)}
+  def handle_event("start", _value, socket) do
+    MIDIPlayer.play(MIDISeq.Player)
+
+    {:noreply, socket}
   end
 
-  @impl true
-  def handle_event("search", %{"q" => query}, socket) do
-    case search(query) do
-      %{^query => vsn} ->
-        {:noreply, redirect(socket, external: "https://hexdocs.pm/#{query}/#{vsn}")}
-
-      _ ->
-        {:noreply,
-         socket
-         |> put_flash(:error, "No dependencies found matching \"#{query}\"")
-         |> assign(results: %{}, query: query)}
-    end
-  end
-
-  defp search(query) do
-    if not MIDISeqWeb.Endpoint.config(:code_reloader) do
-      raise "action disabled when not in development"
-    end
-
-    for {app, desc, vsn} <- Application.started_applications(),
-        app = to_string(app),
-        String.starts_with?(app, query) and not List.starts_with?(desc, ~c"ERTS"),
-        into: %{},
-        do: {app, vsn}
+  defp test_events do
+    change1 = MIDIPlayer.Event.change_program(0, 0, 15)
+    piano = MIDIPlayer.Event.note(0, 60, 0, 1000, 127)
+    change2 = MIDIPlayer.Event.change_program(0, 1000, 42)
+    violin1 = MIDIPlayer.Event.note(0, 67, 1000, 3000, 127)
+    violin2 = MIDIPlayer.Event.note(0, 64, 1000, 3000, 127)
+    [change1, piano, change2, violin1, violin2]
   end
 end

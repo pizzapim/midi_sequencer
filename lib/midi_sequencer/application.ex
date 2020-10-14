@@ -14,7 +14,8 @@ defmodule MIDISeq.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: MIDISeq.PubSub},
       # Start the Endpoint (http/https)
-      MIDISeqWeb.Endpoint
+      MIDISeqWeb.Endpoint,
+      {MIDIPlayer, [name: MIDISeq.Player]}
       # Start a worker by calling: MIDISeq.Worker.start_link(arg)
       # {MIDISeq.Worker, arg}
     ]
