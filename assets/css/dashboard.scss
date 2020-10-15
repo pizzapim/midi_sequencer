@@ -1,0 +1,40 @@
+body {
+    margin: 0;
+}
+
+#dashboard {
+    height: 100vh;
+    width: 100vw;
+}
+
+#overview {
+    display: flex;
+    height: 75%;
+    background-color: burlywood;
+
+    #channels {
+        flex: 2;
+        background-color: moccasin;
+    }
+
+    #tracks {
+        flex: 8;
+        background-color: lightcoral;
+    }
+}
+
+#track {
+    display: flex;
+    height: 25%;
+    background-color: antiquewhite;
+
+    #info {
+        flex: 2;
+        background-color: peachpuff;
+    }
+
+    #events {
+        flex: 8;
+        background-color: lightcyan;
+    }
+}

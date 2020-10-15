@@ -1,3 +1,4 @@
+<%= live_redirect "dashboard", to: Routes.dashboard_path(@socket, :index) %>
 <%= for event <- @events do %>
 <p>
     <%= case event do
