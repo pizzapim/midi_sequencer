@@ -1,3 +1,10 @@
+:root {
+    --bar-height: 3vh;
+    --bar-width: 5vw;
+    --note-count: 88; // The 88 keys on a piano.
+    --events-height: calc(var(--bar-height) * var(--note-count));
+}
+
 body {
     margin: 0;
 }
@@ -8,33 +15,55 @@ body {
 }
 
 #overview {
-    display: flex;
     height: 75%;
     background-color: burlywood;
+    overflow-y: scroll;
 
-    #channels {
-        flex: 2;
-        background-color: moccasin;
-    }
+    .channel {
+        display: flex;
+        height: 15vh;
 
-    #tracks {
-        flex: 8;
-        background-color: lightcoral;
+        .info {
+            flex: 2;
+            background-color: antiquewhite;
+        }
+
+        .events {
+            flex: 8;
+            background-color: mistyrose;
+        }
     }
 }
 
 #track {
-    display: flex;
     height: 25%;
-    background-color: antiquewhite;
+    overflow-y: scroll;
 
-    #info {
-        flex: 2;
-        background-color: peachpuff;
-    }
+    .scroll-container {
+        height: calc(var(--note-count) * var(--bar-height));
+        display: flex;
 
-    #events {
-        flex: 8;
-        background-color: lightcyan;
+        .info {
+            flex: 2;
+            background-color: peachpuff;
+        }
+
+        .events {
+            position: relative;
+            flex: 8;
+            background-color: black;
+            background-image:
+                repeating-linear-gradient(white 0 1px, transparent 1px 100%),
+                repeating-linear-gradient(90deg, white 0 1px, transparent 1px 100%);
+            background-size: 5vw 3vh;
+        }
     }
+}
+
+.testje {
+    position: absolute;
+    width: var(--bar-width);
+    height: var(--bar-height);
+    background-color: orangered;
+    top: calc(var(--events-height) - (var(--note) - 20) * var(--bar-height));
 }

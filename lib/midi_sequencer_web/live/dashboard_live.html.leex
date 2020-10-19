@@ -1,18 +1,26 @@
 <div id="dashboard">
     <div id="overview">
-        <div id="channels">
-
-        </div>
-        <div id="tracks">
-
-        </div>
+        <%= for {id, channel} <- @channels do %>
+            <%= live_component @socket, MIDISeqWeb.Component.ChannelLive, id: id, channel: channel %>
+        <% end %>
     </div>
     <div id="track">
-        <div id="info">
-
-        </div>
-        <div id="events">
-
+        <div class="scroll-container">
+            <div class="info">
+                <%= if @current_channel_id == nil do %>
+                    No channel selected
+                <% else %>
+                    Current channel id: <%= @current_channel_id %>
+                <% end %>
+            </div>
+            <div class="events">
+                <div class="testje" style="--note: 21">
+                </div>
+                <div class="testje" style="--note: 60">
+                </div>
+                <div class="testje" style="--note: 108">
+                </div>
+            </div>
         </div>
     </div>
 </div>
